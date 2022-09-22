@@ -28,19 +28,19 @@
             <div class="row px-3 py-2">
                 <p>You have 1 task pending</p>
             </div>
-            <div class="row px-3 py-2">
+            <form class="row px-3 py-2" id="todo-form">
                 <div class="col-11">
-                    <input type="text" class="w-100" />
+                    <input type="text" class="w-100" id="todo-input" />
                 </div>
                 <div class="col-1">
-                    <button>x</button>
+                    <button id="add-btn">x</button>
                 </div>
-            </div>
-            <div class="row px-3 py-2">
+            </form>
+            <div class="row px-3 py-2" id="todo-list">
                 <div class="row">
                     <span class="col-10">This is an example task.</span>
-                    <span class="col-1"><button>x</button></span>
-                    <span class="col-1"><button>x</button></span>
+                    <span class="col-1"><button>O</button></span>
+                    <span class="col-1"><button>X</button></span>
                 </div>
             </div>
         </main>
@@ -49,6 +49,7 @@
             integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
             crossorigin="anonymous"
         ></script>
+        <script src="{% static 'js/script.js' %}"></script>
     </body>
     <!-- JavaScript Bundle with Popper -->
 </html>
