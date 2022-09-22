@@ -39,7 +39,8 @@
             </form>
             <div class="row px-3 py-2" id="todo-list">
                 {% if todos %} {% for todo in todos %}
-                <form class="row">
+                <form class="row todo">
+                    {% csrf_token %}
                     <span class="col-10">{{ todo.text }}</span>
                     <span class="col-1"><button>O</button></span>
                     <span class="col-1"><button>X</button></span>
