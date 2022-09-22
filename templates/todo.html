@@ -29,19 +29,23 @@
                 <p>You have 1 task pending</p>
             </div>
             <form class="row px-3 py-2" id="todo-form">
+                {% csrf_token %}
                 <div class="col-11">
-                    <input type="text" class="w-100" id="todo-input" />
+                    <input type="text" class="w-100" id="todo-input" name="todo" />
                 </div>
                 <div class="col-1">
                     <button id="add-btn">x</button>
                 </div>
             </form>
             <div class="row px-3 py-2" id="todo-list">
-                <div class="row">
-                    <span class="col-10">This is an example task.</span>
+                {% if todos %} {% for todo in todos %}
+                <form class="row">
+                    <span class="col-10">{{ todo.text }}</span>
                     <span class="col-1"><button>O</button></span>
                     <span class="col-1"><button>X</button></span>
-                </div>
+                    <input type="hidden" value="{{ todo.id }}" />
+                </form>
+                {% endfor %} {% endif %}
             </div>
         </main>
         <script
