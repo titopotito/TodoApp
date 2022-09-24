@@ -3,6 +3,7 @@
 import os
 import sys
 
+SECRET_KEY = 'django-insecure-q7f7&n*7_a679-4mc(^dm**v75r-b^*-3#&la59a#ixiz^cgw+'
 
 def main():
     """Run administrative tasks."""

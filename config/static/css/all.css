@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: rgb(227, 227, 227);
     padding: 2rem;
@@ -6,4 +10,12 @@ body {
 
 main {
     max-width: 768px;
+}
+
+.bg-main {
+    background-color: rgb(227, 227, 227) !important;
+}
+
+.menu-width {
+    width: 222px;
 }

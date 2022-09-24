@@ -1,13 +1,13 @@
 const todoList = document.getElementById("todo-list");
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
-const csrftokenHtml = document.querySelector("form > input");
+const csrftokenContainer = document.querySelector("form > input");
 const todos = document.querySelectorAll(".todo");
 
 todoForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const text = todoInput.value;
-    const csrftoken = csrftokenHtml.value;
+    const csrftoken = csrftokenContainer.value;
     if (text) {
         fetch("add_todo", {
             method: "POST",
@@ -32,6 +32,7 @@ const addEventListenerToBtns = function (todo) {
     const deleteBtn = todo.children[3].children[0];
     const idContainer = todo.children[4];
     const csrftokenContainer = todo.children[0];
+
     deleteBtn.addEventListener("click", (e) => {
         e.preventDefault();
         const id = idContainer.value;
@@ -63,6 +64,10 @@ class TodoHtml {
         this.deleteBtn = document.createElement("button");
         this.idContainer = document.createElement("input");
         this.csrftokenContainer = document.createElement("input");
+        this.deleteIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        this.deleteIconPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        this.completeIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        this.completeIconPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
         this.createTodoHtml(todo);
         return this.todoHtml;
     }
@@ -72,13 +77,9 @@ class TodoHtml {
         this.csrftokenContainer.name = "csrfmiddlewaretoken";
         this.csrftokenContainer.value = todo.csrftoken;
         this.textContainer.innerText = todo.text;
-        this.textContainer.classList = ["col-10"];
-        this.completeBtn.innerText = "O";
-        this.deleteBtn.innerText = "X";
+        this.textContainer.classList = ["flex-fill ps-3 py-2"];
         this.completeBtnContainer.append(this.completeBtn);
-        this.completeBtnContainer.classList = ["col-1"];
         this.deleteBtnContainer.append(this.deleteBtn);
-        this.deleteBtnContainer.classList = ["col-1"];
         this.idContainer.type = "hidden";
         this.idContainer.value = todo.id;
         this.todoHtml.append(this.csrftokenContainer);
@@ -86,6 +87,51 @@ class TodoHtml {
         this.todoHtml.append(this.completeBtnContainer);
         this.todoHtml.append(this.deleteBtnContainer);
         this.todoHtml.append(this.idContainer);
-        this.todoHtml.classList = ["row todo"];
+        this.todoHtml.classList = ["d-flex todo shadow-sm py-3 px-2 mb-3 rounded"];
+
+        this.deleteIcon.setAttribute("width", "16");
+        this.deleteIcon.setAttribute("height", "16");
+        this.deleteIcon.setAttribute("fill", "currentColor");
+        this.deleteIcon.setAttribute("viewBox", "0 0 16 16");
+        this.deleteIcon.classList = ["bi bi-trash-fill"];
+
+        this.deleteIconPath.setAttribute(
+            "d",
+            "M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"
+        );
+
+        this.completeIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        this.completeIcon.setAttribute("width", "16");
+        this.completeIcon.setAttribute("height", "16");
+        this.completeIcon.setAttribute("fill", "currentColor");
+        this.completeIcon.setAttribute("viewBox", "0 0 16 16");
+        this.completeIcon.classList = ["bi bi-check-lg"];
+
+        this.completeIconPath.setAttribute(
+            "d",
+            "M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
+        );
+
+        this.deleteIcon.append(this.deleteIconPath);
+        this.deleteBtn.append(this.deleteIcon);
+        this.deleteBtn.classList = ["btn btn-outline-light border border-0 text-danger"];
+
+        this.completeIcon.append(this.completeIconPath);
+        this.completeBtn.append(this.completeIcon);
+        this.completeBtn.classList = ["btn btn-outline-light border border-0 text-success"];
     }
 }
+
+const menuBtn = document.getElementById("menu-btn");
+
+menuBtn.addEventListener("click", (e) => {
+    const menu = document.getElementById("menu");
+    const visibility = menu.style.visibility;
+    if (visibility === "hidden") {
+        menu.style.visibility = "visible";
+        menuBtn.style.backgroundColor = "red";
+    }
+    if (visibility === "visible") {
+        menu.style.visibility = "hidden";
+    }
+});
