@@ -19,7 +19,6 @@
         <main class="mx-auto d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center position-relative">
                 <h1 class="fw-bold">My Tasks</h1>
-
                 <button class="p-3 shadow-sm rounded bg-transparent border border-0" id="menu-btn">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +33,8 @@
                             d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
                         />
                     </svg>
-                    All &nbsp &nbsp &nbsp &nbsp &nbsp
+                    <span>All</span>
+                    &nbsp &nbsp &nbsp &nbsp &nbsp
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -56,6 +56,7 @@
                 >
                     <button
                         class="p-2 d-flex justify-content-start align-items-center border border-0 btn btn-outline-light text-dark"
+                        id="filter-all"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -74,6 +75,7 @@
                     </button>
                     <button
                         class="p-2 d-flex justify-content-start align-items-center border border-0 btn btn-outline-light text-dark"
+                        id="filter-completed"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -91,6 +93,7 @@
                     </button>
                     <button
                         class="p-2 d-flex justify-content-start align-items-center border border-0 btn btn-outline-light text-dark"
+                        id="filter-pending"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +115,7 @@
                 </div>
             </div>
             <div class="pt-2">
-                <p class="mb-1">You have 1 pending task</p>
+                <p class="mb-1" id="counter">You have {{ todos.count }} task</p>
             </div>
             <form class="d-flex justify-content-between shadow-sm p-2 mb-3 rounded" id="todo-form">
                 {% csrf_token %}
