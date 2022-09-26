@@ -12,33 +12,33 @@ def index(request):
     }
     return render(request, 'todo.html', {'todos': todos})
 
-def add_todo(request):
+def add(request):
     if request.method == 'POST':
-        data = request.body
-        todoJson = json.loads(data)
-        text = todoJson['text']
-        todo = Todo(text=text)
+        data = json.loads(request.body)
+        todo = Todo(text=data['text'])
         todo.save()
-        todo_id = todo.pk
 
-    return JsonResponse({'id': todo_id, 'text': text, 'is_completed': todo.is_completed, 'csrftoken': request.META['CSRF_COOKIE']}, safe=False)
+        context = {
+            'id': todo.pk,
+            'text': data['text'],
+            'is_completed': todo.is_completed,
+            'csrftoken': request.META['CSRF_COOKIE']
+        }
 
-def delete_todo(request):
+    return JsonResponse(context, safe=False)
+
+def delete(request):
     if request.method == 'POST':
-        data = request.body
-        todoJson = json.loads(data)
-        todo_id = todoJson['id']
-        todo = Todo.objects.get(id=todo_id)
+        data = json.loads(request.body)
+        todo = Todo.objects.get(id=data['id'])
         todo.delete()
     return JsonResponse({}, safe=False)
 
-def complete_todo(request):
+def toggle(request):
     if request.method == 'POST':
-        data = request.body
-        todoJson = json.loads(data)
-        todo_id = todoJson['id']
-        todo = Todo.objects.get(id=todo_id)
-        if (todoJson['is_completed']):
+        data = json.loads(request.body)
+        todo = Todo.objects.get(id=data['id'])
+        if (data['is_completed']):
             todo.is_completed = False
         else:
             todo.is_completed = True
@@ -46,22 +46,19 @@ def complete_todo(request):
         todo.save()
     return JsonResponse({}, safe=False)
 
-def filter_all(request):
-    todos = Todo.objects.all().order_by('pk')
-    todos_json = serializers.serialize('json', todos)
-    todos_object = json.loads(todos_json)
-    print(todos_object)
-    return JsonResponse({'todos':todos_object, 'csrftoken': request.META['CSRF_COOKIE']}, safe=False, content_type='application/json')
 
-def filter_completed(request):
-    todos = Todo.objects.filter(is_completed=True).order_by('pk')
-    todos_json = serializers.serialize('json', todos)
-    todos_object = json.loads(todos_json)
-    print(todos_object)
-    return JsonResponse({'todos':todos_object, 'csrftoken': request.META['CSRF_COOKIE']}, safe=False, content_type='application/json')
+def filter(request, filter_param):
+    if (filter_param == 'All'):
+        todos = Todo.objects.all().order_by('pk')
+    if (filter_param == 'Completed'):
+        todos = Todo.objects.filter(is_completed=True).order_by('pk')
+    if (filter_param == 'Pending'):
+        todos = Todo.objects.filter(is_completed=False).order_by('pk')
+    serialized = serializers.serialize('json', todos)
+    todos_json = json.loads(serialized)
 
-def filter_pending(request):
-    todos = Todo.objects.filter(is_completed=False).order_by('pk')
-    todos_json = serializers.serialize('json', todos)
-    todos_object = json.loads(todos_json)
-    return JsonResponse({'todos':todos_object, 'csrftoken': request.META['CSRF_COOKIE']}, safe=False, content_type='application/json')
+    context = {
+        'todos': todos_json,
+        'csrftoken': request.META['CSRF_COOKIE']
+    }
+    return JsonResponse(context, safe=False, content_type='application/json')
