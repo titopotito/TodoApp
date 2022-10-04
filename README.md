@@ -18,13 +18,9 @@ _An application for keeping track and managing your daily tasks._
 or
 `source env/Scripts/activate`
 
--   Install the following packages: django, psycopg2, python-decouple
+-   Install the packages inside requirements.txt
 
-`pip install django`
-
-`pip install psycopg2`
-
-`pip install python-decouple`
+`pip install -r requirements.txt`
 
 -   Rename .env.example to .env
 
