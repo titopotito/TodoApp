@@ -5,4 +5,4 @@ class Todo(models.Model):
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        return self.text
